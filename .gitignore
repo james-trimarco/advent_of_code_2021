@@ -128,4 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 src/advent2021/day_1/.DS_Store
-.DS_Store
+**/.DS_Store
+**/input.txt
