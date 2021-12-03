@@ -18,7 +18,7 @@ class Submarine:
         elif step.direction == "up":
             self.depth -= step.distance
         elif step.direction == "down":
-            self.depth += step[1]
+            self.depth += step.distance
 
     def end(self):
         return self.h_position * self.depth

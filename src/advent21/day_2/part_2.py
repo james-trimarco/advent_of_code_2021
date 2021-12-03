@@ -9,16 +9,18 @@ class Submarine:
     def __init__(self, steps: List[Tuple]) -> None:
         self.h_position = 0
         self.depth = 0
+        self.aim = 0
         for step in steps:
             self.move(step)
 
     def move(self, step: Tuple):
         if step.direction == "forward":
             self.h_position += step.distance
+            self.depth += self.aim * step.distance
         elif step.direction == "up":
-            self.depth -= step.distance
+            self.aim -= step.distance
         elif step.direction == "down":
-            self.depth += step[1]
+            self.aim += step.distance
 
     def end(self):
         return self.h_position * self.depth
