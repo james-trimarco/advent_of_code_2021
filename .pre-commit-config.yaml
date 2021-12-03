@@ -13,4 +13,3 @@ repos:
     rev: 3.9.2 # change this to the most recent stable release
     hooks:
       - id: flake8
-        args: [--config, app/.flake8]

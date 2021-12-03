@@ -1,15 +1,7 @@
 import sys
-from pathlib import Path
 from typing import List
-from advent21.utils import read_ints
-
-
-if sys.argv[1] == "data":
-    print("Running with full puzzle data.")
-    data_path = Path.cwd() / "src" / "advent21" / "day_1" / "input.txt"
-else:
-    print("Running with test data.")
-    data_path = Path.cwd() / "src" / "advent21" / "day_1" / "test_input.txt"
+from advent21.day_1.utils import read_ints
+from advent21.utils import handle_input
 
 
 def detect_increasing_depth(data: List[int]):
@@ -23,5 +15,7 @@ def detect_increasing_depth(data: List[int]):
 
 
 if __name__ == "__main__":
+    day_number = 1
+    data_path = handle_input(day_number, sys.argv[1])
     list_of_ints = read_ints(data_path)
     print(detect_increasing_depth(list_of_ints))
