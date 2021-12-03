@@ -1,7 +1,6 @@
 import sys
 from typing import List, Tuple
 from pathlib import Path
-from collections import namedtuple
 from advent21.utils import handle_input
 from advent21.day_2.utils import read_steps
 
