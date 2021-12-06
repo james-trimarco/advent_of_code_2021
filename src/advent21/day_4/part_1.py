@@ -1,6 +1,5 @@
 import sys
-from statistics import mean
-from typing import List, Tuple
+from typing import Tuple
 from pathlib import Path
 from advent21.utils import handle_input
 from advent21.day_4.utils import read_bingo_input
