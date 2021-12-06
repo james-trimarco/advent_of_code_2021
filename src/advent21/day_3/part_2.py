@@ -2,8 +2,8 @@ import sys
 from statistics import mean
 from typing import List
 from pathlib import Path
-from advent21.utils import handle_input
-from advent21.day_3.utils import read_bin_strings, build_matrix, convert_bin_to_decimal
+from advent21.utils import handle_input, build_matrix
+from advent21.day_3.utils import read_bin_strings, convert_bin_to_decimal
 
 
 def compute_oxygen_or_carbon(matrix: List[List], type: str) -> str:

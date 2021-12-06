@@ -1,5 +1,13 @@
-from typing import Tuple
+from typing import List, Tuple
 from pathlib import Path
+
+
+def build_matrix(input: List[str]) -> List[List[int]]:
+    matrix = []
+    for bin_string in input:
+        row = [int(x) for x in bin_string]
+        matrix.append(row)
+    return matrix
 
 
 def handle_input(day_number: int, run_type: str):
