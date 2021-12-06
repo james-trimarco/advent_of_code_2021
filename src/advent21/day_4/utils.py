@@ -1,22 +1,29 @@
-from typing import List
+import numpy as np
+from typing import List, Tuple
 from pathlib import Path
 
 
-def convert_bin_to_decimal(bin_strings: List[str]) -> List[int]:
-    return [int(bin_string, 2) for bin_string in bin_strings]
+def read_ints_from_line(line: str, sep=",") -> List[int]:
+    return [int(x) for x in line.replace("  ", " ").split(sep) if x.strip().isnumeric()]
 
 
-def read_bin_strings(file_path: Path) -> List[str]:
-    "Reads a list of binary strings from a filename."
+def read_bingo_input(file_path: Path) -> Tuple[List[int], np.array]:
     try:
         with open(file_path, "r") as file:
-            bin_strings = []
-            for line in file:
-                if line.strip().isnumeric():
-                    bin_strings.append(str(line.rstrip()))
+            boards = []
+            for index, line in enumerate(file):
+                if index == 0:
+                    numbers = read_ints_from_line(line)
                 else:
-                    continue
+                    row = read_ints_from_line(line, sep=" ")
+                    if len(row) < 1:
+                        board = []
+                    else:
+                        board.append(row)
+                        if len(board) == 5:
+                            boards.append(board)
+            boards = np.array(boards)
+            return numbers, boards
     except FileNotFoundError as e:
         print(f"File not found {e}")
         raise
-    return bin_strings

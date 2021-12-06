@@ -2,43 +2,24 @@ import sys
 from statistics import mean
 from typing import List, Tuple
 from pathlib import Path
-from advent21.utils import handle_input, build_matrix
+from advent21.utils import handle_input
+from advent21.day_4.utils import read_bingo_input
+import numpy as np
+from nptyping import NDArray
 
 
-def read_ints_from_line(line: str, sep=","):
-    return [int(x) for x in line.split(sep) if x.strip().isnumeric()]
+def process_number(number: int, boards: NDArray) -> NDArray:
+    np.place(boards, boards == number, -1)
+    return boards
 
 
-def read_bingo_input(file_path: Path):
-    try:
-        with open(file_path, "r") as file:
-            boards = []
-            for index, line in enumerate(file):
-                line = line.replace("  ", " ")
-                if index == 0:
-                    numbers = read_ints_from_line(line)
-                else:
-                    row = read_ints_from_line(line, sep=" ")
-                    if len(row) < 1:
-                        board = []
-                    else:
-                        board.append(row)
-                        if len(board) == 5:
-                            boards.append(board)
-            return numbers, boards
-
-    except FileNotFoundError as e:
-        print(f"File not found {e}")
-        raise
-    # return numbers
-
-
-class Board:
-    def __init__(self) -> None:
-        self.new_method()
-
-    def new_method(self):
-        pass
+def check_for_bingo(boards: NDArray) -> Tuple[bool, int]:
+    for board_number in range(boards.shape[0]):
+        columns = np.all(boards[board_number] == -1, axis=0)
+        rows = np.all(boards[board_number] == -1, axis=1)
+        if np.any(columns) or np.any(rows):
+            return True, board_number
+    return False, board_number
 
 
 if __name__ == "__main__":
@@ -46,6 +27,12 @@ if __name__ == "__main__":
     data_path = handle_input(day_number, sys.argv[1])
     numbers, boards = read_bingo_input(data_path)
 
-    # matrix = build_matrix(boards[0])
-
-    # print(f" {results[0] * results[1]}")
+    for number in numbers:
+        boards = process_number(number, boards)
+        check, board_number = check_for_bingo(boards)
+        if check:
+            board = boards[board_number]
+            sum_unmarked = board[board != -1].sum()
+            result = sum_unmarked * number
+            print(result)
+            break
