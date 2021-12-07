@@ -1,13 +1,19 @@
 import sys
+import numpy as np
 from typing import List
+from nptyping import NDArray
 from pathlib import Path
 from advent21.utils import handle_input
-from advent21.day_5.utils import find_direction, read_vent_lines, find_step, Point
-import numpy as np
-from nptyping import NDArray
+from advent21.day_5.utils import (
+    find_direction,
+    read_vent_lines,
+    find_step,
+    Point,
+    draw_lines,
+)
 
 
-def interpolate(map: List[List[List[int]]]):
+def interpolate(map: List[List[Point]]) -> List[List[Point]]:
     for index in range(len(map)):
         line = map[index]
         dir = find_direction(line[0], line[1])
@@ -21,21 +27,6 @@ def interpolate(map: List[List[List[int]]]):
                 )
                 line.insert(i, new_point)
             map[index] = line
-    return map
-
-
-def find_max(lines, index):
-    return max([point[index] for line in lines if len(line) > 0 for point in line])
-
-
-def draw_lines(lines):
-    height = find_max(lines, 0)
-    width = find_max(lines, 1)
-    map = np.zeros((width + 1, height + 1), dtype=np.int16)
-    for line in lines:
-        if len(line) > 0:
-            for point in line:
-                map[point[0], point[1]] += 1
     return map
 
 

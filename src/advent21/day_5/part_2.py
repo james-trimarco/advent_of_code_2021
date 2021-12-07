@@ -2,58 +2,28 @@ import sys
 from typing import List
 from pathlib import Path
 from advent21.utils import handle_input
-from advent21.day_5.utils import read_vent_lines
+from advent21.day_5.utils import (
+    find_direction,
+    read_vent_lines,
+    find_step,
+    Point,
+    draw_lines,
+)
 import numpy as np
 from nptyping import NDArray
 
 
-def find_slope(point_1, point_2):
-    if (point_2[0] - point_1[0]) == 0:
-        return np.inf
-    else:
-        m = (point_2[1] - point_1[1]) / (point_2[0] - point_1[0])
-        return round(m, 2)
-
-
-def interpolate(map: List[List[List[int]]]):
+def interpolate(map: List[List[Point]]) -> List[List[Point]]:
     for index in range(len(map)):
         line = map[index]
-        slope = find_slope(line[0], line[1])
-        print(slope)
-        if line[0][0] == line[1][0]:
-            # vertical
-            if line[1][1] < line[0][1]:
-                line[1][1], line[0][1] = line[0][1], line[1][1]  # swap
-            for i in range(1, line[1][1] - line[0][1]):
-                new_point = list([line[0][0], line[0][1] + i])
-                line.insert(i, new_point)
-            map[index] = line
-        elif line[0][1] == line[1][1]:
-            # horizontal
-            if line[1][0] < line[0][0]:
-                line[1][0], line[0][0] = line[0][0], line[1][0]  # swap
-            for i in range(1, line[1][0] - line[0][0]):
-                new_point = list([line[0][0] + i, line[1][1]])
-                line.insert(i, new_point)
-            map[index] = line
-        else:
-            # delete nonstraight line
-            map[index] = []
-    return map
-
-
-def find_max(lines, index):
-    return max([point[index] for line in lines if len(line) > 0 for point in line])
-
-
-def draw_lines(lines):
-    height = find_max(lines, 0)
-    width = find_max(lines, 1)
-    map = np.zeros((width + 1, height + 1), dtype=np.int16)
-    for line in lines:
-        if len(line) > 0:
-            for point in line:
-                map[point[0], point[1]] += 1
+        dir = find_direction(line[0], line[1])
+        for i in range(1, abs(max(dir, key=abs))):
+            new_point = Point(
+                line[0].x + (i * find_step(dir[0])),
+                line[0].y + (i * find_step(dir[1])),
+            )
+            line.insert(i, new_point)
+        map[index] = line
     return map
 
 

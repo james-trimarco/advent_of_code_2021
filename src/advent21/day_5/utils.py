@@ -19,6 +19,21 @@ def find_direction(point_1, point_2) -> Tuple[int]:
     return ((point_2.x - point_1.x), (point_2.y - point_1.y))
 
 
+def find_max(lines, index):
+    return max([point[index] for line in lines if len(line) > 0 for point in line])
+
+
+def draw_lines(lines):
+    height = find_max(lines, 0)
+    width = find_max(lines, 1)
+    map = np.zeros((width + 1, height + 1), dtype=np.int16)
+    for line in lines:
+        if len(line) > 0:
+            for point in line:
+                map[point[0], point[1]] += 1
+    return map
+
+
 def read_vent_lines(file_path: Path) -> List[List[List[int]]]:
     try:
         with open(file_path, "r") as file:

@@ -1,5 +1,4 @@
 import sys
-from statistics import mean
 from typing import List, Tuple
 from pathlib import Path
 from advent21.utils import handle_input
