@@ -2,6 +2,17 @@ from typing import List, Tuple
 from pathlib import Path
 
 
+def read_ints_sep_comma(file_path: Path) -> List[int]:
+    try:
+        with open(file_path, "r") as file:
+            for line in file:
+                ints = line.split("")
+    except FileNotFoundError as e:
+        print(f"File not found {e}")
+        raise
+    return ints
+
+
 def build_matrix(input: List[str]) -> List[List[int]]:
     matrix = []
     for bin_string in input:
