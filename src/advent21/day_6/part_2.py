@@ -4,42 +4,33 @@ from typing import List
 from nptyping import NDArray
 from pathlib import Path
 from advent21.utils import read_ints_sep_comma, handle_input, Timer
+from collections import Counter
 
 
-def pass_one_day(fish: int):
-    print(fish)
-    if fish == 0:
-        return 6
-    else:
-        return fish - 1
+def pass_one_day(school: Counter):
+    for age, count in sorted(school.copy().items(), reverse=True):
+        if age == 0:
+            school[6] += count
+            school[8] = count
+        else:
+            school[age - 1] = count
+    return school
 
 
 if __name__ == "__main__":
     t = Timer()
-    # t.start()
-
     day_number = 6
     data_path = handle_input(day_number, sys.argv[1])
     fishes = read_ints_sep_comma(data_path)
-    school = np.array([], dtype=np.uint8)  # start with 100 million spaces in the array
-    print(school.shape)
 
-    for index, fish in enumerate(fishes):
-        school = np.append(school, [fish], 0)
+    school = Counter(fishes)
+    for key in range(9):
+        if key not in school.keys():
+            school[key] = 0
 
-    for day in range(256):
-        print(day)
-        t.start()
-        count_zeros = school.size - np.count_nonzero(school)
-        t.stop()
+    for day in range(1, 257):
+        print(f"{day} Days")
+        school = pass_one_day(school)
 
-        t.start()
-        school = np.where(school == 0, 6, school - 1)
-        t.stop()
-
-        t.start()
-        school = np.concatenate([school, np.repeat(8, count_zeros)])
-        t.stop()
-
-    print(school.size)
-    # t.stop()
+        print(sum(school.values()))
+        print("\n")
