@@ -2,7 +2,7 @@ import sys
 from typing import List
 from pathlib import Path
 from advent21.utils import handle_input
-from advent21.day_5.utils import read_vent_lines
+from advent21.day_5.utils import find_direction, read_vent_lines, find_step, Point
 import numpy as np
 from nptyping import NDArray
 
@@ -10,25 +10,17 @@ from nptyping import NDArray
 def interpolate(map: List[List[List[int]]]):
     for index in range(len(map)):
         line = map[index]
-        if line[0][0] == line[1][0]:
-            # vertical
-            if line[1][1] < line[0][1]:
-                line[1][1], line[0][1] = line[0][1], line[1][1]  # swap
-            for i in range(1, line[1][1] - line[0][1]):
-                new_point = list([line[0][0], line[0][1] + i])
-                line.insert(i, new_point)
-            map[index] = line
-        elif line[0][1] == line[1][1]:
-            # horizontal
-            if line[1][0] < line[0][0]:
-                line[1][0], line[0][0] = line[0][0], line[1][0]  # swap
-            for i in range(1, line[1][0] - line[0][0]):
-                new_point = list([line[0][0] + i, line[1][1]])
-                line.insert(i, new_point)
-            map[index] = line
-        else:
-            # delete nonstraight line
+        dir = find_direction(line[0], line[1])
+        if 0 not in dir:
             map[index] = []
+        else:
+            for i in range(1, abs(max(dir, key=abs))):
+                new_point = Point(
+                    line[0].x + (i * find_step(dir[0])),
+                    line[0].y + (i * find_step(dir[1])),
+                )
+                line.insert(i, new_point)
+            map[index] = line
     return map
 
 
