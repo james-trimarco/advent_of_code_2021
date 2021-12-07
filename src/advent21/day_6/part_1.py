@@ -1,6 +1,5 @@
 import sys
 import numpy as np
-from typing import List
 from nptyping import NDArray
 from pathlib import Path
 from advent21.utils import read_ints_sep_comma, handle_input, Timer
@@ -29,6 +28,6 @@ if __name__ == "__main__":
 
     for day in range(80):
         school = [pass_one_day(x) for x in school if isinstance(fish, int)]
-        print(len(school))
+        print(f"Day {day}: {len(school)} lanternfish")
 
     t.stop()
