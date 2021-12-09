@@ -8,8 +8,8 @@ def read_words_sep_pipe(file_path: Path) -> Tuple[List[str], List[str]]:
             patterns, output = [], []
             for line in file:
                 patterns_raw, output_raw = line.split("|")[0], line.split("|")[1]
-                patterns.extend([word.strip() for word in patterns_raw.split()])
-                output.extend([word.strip() for word in output_raw.split()])
+                patterns.append([word.strip() for word in patterns_raw.split()])
+                output.append([word.strip() for word in output_raw.split()])
     except FileNotFoundError as e:
         print(f"File not found {e}")
         raise

@@ -20,6 +20,7 @@ if __name__ == "__main__":
     day_number = 8
     data_path = handle_input(day_number, sys.argv[1])
     _, output = read_words_sep_pipe(data_path)
+    output = [item for sublist in output for item in sublist]
     counter = count_uniques(output)
     print(f"Count: {counter}")
 
