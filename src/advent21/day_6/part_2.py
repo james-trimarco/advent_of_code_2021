@@ -8,6 +8,9 @@ from collections import Counter
 
 
 def pass_one_day(school: Counter):
+    t = Timer()
+    t.start()
+
     for age, count in sorted(school.copy().items(), reverse=True):
         if age == 0:
             school[6] += count
@@ -19,6 +22,8 @@ def pass_one_day(school: Counter):
 
 if __name__ == "__main__":
     t = Timer()
+    t.start()
+
     day_number = 6
     data_path = handle_input(day_number, sys.argv[1])
     fishes = read_ints_sep_comma(data_path)
@@ -34,3 +39,5 @@ if __name__ == "__main__":
 
         print(sum(school.values()))
         print("\n")
+
+    t.stop()

@@ -6,11 +6,14 @@ import numpy as np
 from nptyping import NDArray
 
 
+def find_potentials(ix: int, iy: int):
+    return [(ix + 1, iy), (ix - 1, iy), (ix, iy + 1), (ix, iy - 1)]
+
+
 def find_neighbors(ix: int, iy: int, map_shape: Tuple[int]) -> List[Tuple[int, int]]:
-    potentials = [(ix + 1, iy), (ix - 1, iy), (ix, iy + 1), (ix, iy - 1)]
     neighbor_indices = [
         tup
-        for tup in potentials
+        for tup in find_potentials(ix, iy)
         if tup[0] in range(map_shape[0]) and tup[1] in range(map_shape[1])
     ]
     return neighbor_indices
