@@ -1,9 +1,7 @@
-from os import sched_get_priority_max
 import sys
 from advent21.utils import handle_input, Timer
 from advent21.day_8.utils import read_words_sep_pipe
 from typing import List
-from collections import namedtuple
 
 
 class Display:
@@ -59,7 +57,7 @@ class Display:
             and segments["E"] not in word
         ][0]
         uniques[2], uniques[5], uniques[3] = two, five, three
-        decoder = {value: key for key, value in uniques.items()}
+        decoder = {value: key for key, value in uniques.items()}  # reversing dict
         return decoder
 
     def decode_output(self, decoder: dict, output: List[str]) -> int:
